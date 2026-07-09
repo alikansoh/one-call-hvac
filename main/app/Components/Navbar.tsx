@@ -73,8 +73,8 @@ export default function Navbar() {
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-md shadow-md py-1.5 sm:py-2"
-            : "bg-transparent py-3 sm:py-4"
+            ? "bg-white/95 backdrop-blur-md shadow-[0_8px_30px_-12px_rgba(10,42,82,0.35)] py-0.5 sm:py-1"
+            : "bg-transparent py-1 sm:py-2"
         }`}
       >
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -86,8 +86,8 @@ export default function Navbar() {
               height={120}
               className={`w-auto transition-all duration-300 ${
                 scrolled
-                  ? "h-14 sm:h-16 md:h-20 lg:h-24"
-                  : "h-20 sm:h-24 md:h-28 lg:h-32"
+                  ? "h-16 sm:h-20 md:h-24 lg:h-28"
+                  : "h-24 sm:h-28 md:h-32 lg:h-36"
               }`}
               priority
             />
@@ -123,23 +123,23 @@ export default function Navbar() {
 
             <Link
               href="#contact"
-              className="font-heading font-bold text-sm px-5 py-2.5 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md hover:brightness-110 transition-all duration-300"
+              className="font-heading font-bold text-sm px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
             >
               Get Free Quote
             </Link>
           </div>
 
           <button
-            className={`lg:hidden relative z-[60] flex h-10 w-10 items-center justify-center rounded-full transition-colors duration-200 ${
+            className={`lg:hidden relative z-[60] flex h-9 w-9 items-center justify-center rounded-full transition-colors duration-200 ${
               mobileOpen ? "bg-white/10" : ""
             }`}
             onClick={() => setMobileOpen((v) => !v)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? (
-              <X className="text-white" size={24} />
+              <X className="text-white" size={22} />
             ) : (
-              <Menu className={scrolled ? "text-blue-900" : "text-white"} size={24} />
+              <Menu className={scrolled ? "text-blue-900" : "text-white"} size={22} />
             )}
           </button>
         </nav>
@@ -153,19 +153,19 @@ export default function Navbar() {
         <button
           onClick={() => setMobileOpen(false)}
           aria-label="Close menu"
-          className="absolute top-4 right-4 sm:top-5 sm:right-6 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white"
+          className="absolute top-3 right-4 sm:top-4 sm:right-6 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white"
         >
-          <X size={22} />
+          <X size={20} />
         </button>
 
-        <div className="flex flex-col justify-center flex-1 px-8">
-          <ul className="flex flex-col gap-1">
+        <div className="flex flex-col justify-center flex-1 px-5">
+          <ul className="flex flex-col gap-0">
             {navLinks.map((link) => (
               <li key={link.label} className="mobile-link border-b border-white/10">
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block py-4 font-heading font-bold text-3xl text-white hover:text-orange-400 transition-colors"
+                  className="block py-2.5 font-heading font-bold text-2xl sm:text-3xl text-white hover:text-blue-300 transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -174,7 +174,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        <div className="mobile-footer px-8 pb-10 flex flex-col gap-4">
+        <div className="mobile-footer px-5 pb-5 flex flex-col gap-2.5">
           <Link
             href="tel:+10000000000"
             onClick={() => setMobileOpen(false)}
@@ -186,7 +186,7 @@ export default function Navbar() {
           <Link
             href="#contact"
             onClick={() => setMobileOpen(false)}
-            className="text-center font-heading font-bold px-5 py-3.5 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 text-white"
+            className="text-center font-heading font-bold px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10"
           >
             Get Free Quote
           </Link>

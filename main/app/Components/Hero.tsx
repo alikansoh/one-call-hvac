@@ -5,7 +5,6 @@ import {
   Phone,
   Snowflake,
   Flame,
-  Star,
   X,
   User,
   Mail,
@@ -15,7 +14,7 @@ import {
 import gsap from "gsap";
 
 const MODES = [
-  { word: "COOL", Icon: Snowflake, color: "#7dd3fc" },
+  { word: "COOL", Icon: Snowflake, color: "#60a5fa" },
   { word: "WARM", Icon: Flame, color: "#ff8a3d" },
 ];
 
@@ -132,7 +131,7 @@ function QuoteForm() {
 
         <button
           type="submit"
-          className="mt-1 font-heading font-bold text-sm px-5 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md hover:brightness-110 transition-all duration-300"
+          className="mt-1 font-heading font-bold text-sm px-5 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
         >
           Get Free Quote
         </button>
@@ -195,10 +194,232 @@ function QuoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   );
 }
 
+function ClimateUnit({ mode, temp }: { mode: number; temp: number }) {
+  const flow = mode === 0 ? "#5fc2fb" : "#ff7a2e";
+
+  const streaks = [
+    { dx: -30, delay: "0s", duration: "2s" },
+    { dx: -10, delay: "0.4s", duration: "2.2s" },
+    { dx: 8, delay: "0.8s", duration: "2.1s" },
+    { dx: 28, delay: "1.2s", duration: "2.3s" },
+  ];
+
+  return (
+    <div className="relative shrink-0" style={{ width: 210, height: 92 }}>
+      <div
+        className="absolute inset-x-8 bottom-0 h-9 rounded-full blur-xl transition-colors duration-700"
+        style={{ background: flow, opacity: 0.35 }}
+      />
+
+      <div
+        className="absolute left-0 top-0 animate-[unitSway_8s_ease-in-out_infinite]"
+        style={{ width: 210, height: 58, transformStyle: "preserve-3d" }}
+      >
+        <div
+          className="absolute inset-0 rounded-[10px] overflow-hidden"
+          style={{ background: "linear-gradient(160deg,#f5f7f9,#d7dce1)" }}
+        >
+          <span className="absolute left-3.5 top-2.5 h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_5px_2px_rgba(52,211,153,0.7)]" />
+
+          <div className="absolute right-3.5 top-1.5 flex items-baseline gap-0.5">
+            <span
+              key={temp}
+              className="font-heading text-lg font-bold tabular-nums leading-none animate-[tempPop_0.3s_ease]"
+              style={{ color: flow, textShadow: `0 0 8px ${flow}88`, transition: "color 0.6s ease" }}
+            >
+              {temp}
+            </span>
+            <span
+              className="text-[10px] font-bold"
+              style={{ color: flow, transition: "color 0.6s ease" }}
+            >
+              °C
+            </span>
+          </div>
+
+          <div className="absolute inset-x-4 bottom-3.5 flex flex-col gap-[3px]">
+            <span className="h-px bg-black/10" />
+            <span className="h-px bg-black/10" />
+          </div>
+        </div>
+
+        <div
+          className="absolute rounded-t-[10px]"
+          style={{
+            top: -13,
+            left: 0,
+            width: 210,
+            height: 13,
+            background: "#e7eaed",
+            transformOrigin: "bottom",
+            transform: "rotateX(90deg)",
+          }}
+        />
+        <div
+          className="absolute"
+          style={{
+            top: 0,
+            left: 210,
+            width: 13,
+            height: 58,
+            background: "#c3c9ce",
+            transformOrigin: "left",
+            transform: "rotateY(90deg)",
+          }}
+        />
+
+        <div
+          key={mode}
+          className="absolute rounded-b-[6px] animate-[ventPulse_0.5s_ease]"
+          style={{
+            bottom: -8,
+            left: 13,
+            width: 184,
+            height: 8,
+            background: "linear-gradient(180deg,#e2e6e9,#c9cfd4)",
+            transformOrigin: "top",
+          }}
+        />
+
+        {streaks.map((s, i) => (
+          <span
+            key={i}
+            className="absolute rounded-full animate-[airFlow_ease-out_infinite]"
+            style={
+              {
+                bottom: -8,
+                left: "50%",
+                width: 5,
+                height: 5,
+                background: flow,
+                boxShadow: `0 0 8px 2px ${flow}`,
+                animationDuration: s.duration,
+                animationDelay: s.delay,
+                "--dx": `${s.dx}px`,
+              } as React.CSSProperties
+            }
+          />
+        ))}
+      </div>
+
+      <style>{`
+        @keyframes unitSway {
+          0%, 100% { transform: rotateX(-14deg) rotateY(20deg); }
+          50% { transform: rotateX(-17deg) rotateY(26deg); }
+        }
+        @keyframes airFlow {
+          0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+          25% { opacity: 1; }
+          100% { transform: translate(calc(-50% + var(--dx)), 30px) scale(1.1); opacity: 0; }
+        }
+        @keyframes tempPop {
+          0% { opacity: 0; transform: translateY(-4px) scale(0.85); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes ventPulse {
+          0% { transform: rotateX(12deg); }
+          45% { transform: rotateX(46deg); }
+          100% { transform: rotateX(32deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+function Remote({
+  mode,
+  temp,
+  onSelectMode,
+  onAdjustTemp,
+}: {
+  mode: number;
+  temp: number;
+  onSelectMode: (m: number) => void;
+  onAdjustTemp: (delta: number) => void;
+}) {
+  const flow = mode === 0 ? "#5fc2fb" : "#ff7a2e";
+
+  return (
+    <div className="relative shrink-0 select-none" style={{ width: 50 }}>
+      <div className="rounded-2xl bg-gradient-to-b from-[#2c3542] to-[#1a212b] p-2 shadow-[0_10px_24px_-8px_rgba(0,0,0,0.65)] ring-1 ring-white/10">
+        <div className="rounded-md bg-[#0b1016] py-1.5 mb-2 ring-1 ring-black/40">
+          <p
+            key={temp}
+            className="font-heading text-[13px] font-bold tabular-nums text-center leading-none animate-[tempPop_0.3s_ease]"
+            style={{ color: flow, textShadow: `0 0 6px ${flow}99` }}
+          >
+            {temp}°
+          </p>
+        </div>
+
+        <div className="flex items-center justify-between gap-1 mb-2">
+          <button
+            type="button"
+            aria-label="Lower temperature"
+            onClick={() => onAdjustTemp(-1)}
+            className="flex-1 rounded-md bg-white/5 hover:bg-white/10 active:scale-90 active:bg-white/15 text-white/70 text-xs font-bold py-1 transition-transform"
+          >
+            −
+          </button>
+          <button
+            type="button"
+            aria-label="Raise temperature"
+            onClick={() => onAdjustTemp(1)}
+            className="flex-1 rounded-md bg-white/5 hover:bg-white/10 active:scale-90 active:bg-white/15 text-white/70 text-xs font-bold py-1 transition-transform"
+          >
+            +
+          </button>
+        </div>
+
+        <div className="flex items-center justify-center gap-2">
+          <button
+            type="button"
+            aria-label="Switch to cool"
+            aria-pressed={mode === 0}
+            onClick={() => onSelectMode(0)}
+            className={`flex h-8 w-8 items-center justify-center rounded-full transition-all active:scale-90 ${
+              mode === 0
+                ? "bg-blue-500/90 shadow-[0_0_10px_2px_rgba(96,165,250,0.7)]"
+                : "bg-white/5 hover:bg-white/10"
+            }`}
+          >
+            <Snowflake size={14} className={mode === 0 ? "text-white" : "text-white/50"} />
+          </button>
+          <button
+            type="button"
+            aria-label="Switch to warm"
+            aria-pressed={mode === 1}
+            onClick={() => onSelectMode(1)}
+            className={`flex h-8 w-8 items-center justify-center rounded-full transition-all active:scale-90 ${
+              mode === 1
+                ? "bg-orange-500/90 shadow-[0_0_10px_2px_rgba(255,138,61,0.7)]"
+                : "bg-white/5 hover:bg-white/10"
+            }`}
+          >
+            <Flame size={14} className={mode === 1 ? "text-white" : "text-white/50"} />
+          </button>
+        </div>
+      </div>
+
+      <div
+        className="absolute top-1 rounded-r-2xl"
+        style={{
+          left: "100%",
+          width: 5,
+          height: "calc(100% - 8px)",
+          background: "#141a22",
+        }}
+      />
+    </div>
+  );
+}
+
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   const wordBoxRef = useRef<HTMLSpanElement>(null);
   const [mode, setMode] = useState(0);
+  const [temp, setTemp] = useState(18);
+  const [userControlled, setUserControlled] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
   const reducedMotion = useRef(false);
 
@@ -214,7 +435,12 @@ export default function Hero() {
         { yPercent: 115 },
         { yPercent: 0, duration: 0.9, stagger: 0.12 }
       )
-        .fromTo(".hero-sub", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.45")
+        .fromTo(
+          ".hero-sub",
+          { opacity: 0, y: 18, letterSpacing: "0.02em" },
+          { opacity: 1, y: 0, letterSpacing: "0em", duration: 0.7, ease: "power2.out" },
+          "-=0.45"
+        )
         .fromTo(
           ".hero-btn",
           { opacity: 0, y: 14 },
@@ -234,11 +460,19 @@ export default function Hero() {
     return () => ctx.revert();
   }, []);
 
+  // Auto-cycle mode + temp together in one state update so they never
+  // desync and so we don't cascade a second render from a separate effect.
   useEffect(() => {
-    if (reducedMotion.current) return;
-    const id = setInterval(() => setMode((m) => (m + 1) % MODES.length), 2800);
+    if (reducedMotion.current || userControlled) return;
+    const id = setInterval(() => {
+      setMode((m) => {
+        const next = (m + 1) % MODES.length;
+        setTemp(next === 0 ? 18 : 24);
+        return next;
+      });
+    }, 2800);
     return () => clearInterval(id);
-  }, []);
+  }, [userControlled]);
 
   useEffect(() => {
     if (!wordBoxRef.current) return;
@@ -248,6 +482,17 @@ export default function Hero() {
       { yPercent: 0, opacity: 1, duration: 0.5, ease: "power3.out" }
     );
   }, [mode]);
+
+  const selectMode = (m: number) => {
+    setUserControlled(true);
+    setMode(m);
+    setTemp(m === 0 ? 18 : 24);
+  };
+
+  const adjustTemp = (delta: number) => {
+    setUserControlled(true);
+    setTemp((t) => Math.min(30, Math.max(16, t + delta)));
+  };
 
   const handleQuoteClick = () => {
     const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
@@ -276,7 +521,7 @@ export default function Hero() {
     <>
       <section
         ref={rootRef}
-        className="relative left-1/2 -translate-x-1/2 w-screen h-[100svh] min-h-[640px] overflow-hidden"
+        className="relative left-1/2 -translate-x-1/2 w-screen min-h-[100svh] overflow-hidden"
       >
         <video
           className="hero-video absolute inset-0 h-full w-full object-cover"
@@ -292,12 +537,11 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#03142b]/80 via-[#03142b]/45 to-[#03142b]/20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#03142b]/35 via-transparent to-[#03142b]/45" />
 
-        <div className="relative z-10 flex h-full w-full items-center">
-          <div className="max-w-7xl mx-auto px-6 sm:px-8 w-full pt-28 sm:pt-32 lg:pt-0">
+        <div className="relative z-10 flex min-h-[100svh] w-full items-center py-12 sm:py-16 lg:pt-28 lg:pb-12">
+          <div className="max-w-7xl mx-auto px-5 sm:px-8 w-full">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-8">
-              {/* Left: copy */}
-              <div className="max-w-xl">
-                <h1 className="font-heading font-extrabold text-white leading-[0.97] tracking-tight text-[clamp(2.1rem,6vw,4.5rem)] text-balance">
+              <div className="lg:flex-1">
+                <h1 className="font-heading font-extrabold text-white leading-[0.95] tracking-tight text-[clamp(2rem,8.5vw,4.5rem)] text-balance w-full max-w-[26ch] sm:max-w-[22ch] lg:max-w-[15ch]">
                   <div className="hero-line overflow-hidden">
                     <span className="inline-block">Comfort that</span>
                   </div>
@@ -322,46 +566,48 @@ export default function Hero() {
                   </div>
                 </h1>
 
-                <p className="hero-sub mt-6 text-[15px] sm:text-lg text-white/70 font-normal leading-relaxed max-w-md">
+                <p className="hero-sub mt-5 sm:mt-6 text-base sm:text-lg md:text-xl font-semibold text-white/95 leading-snug max-w-md tracking-wide [text-wrap:balance] drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
                   Trusted heating and cooling specialists serving homes and
                   businesses across{" "}
-                  <span className="text-white font-semibold">London</span>.
-                  Same-day service, upfront pricing, no surprises.
+                  <span className="relative text-white font-extrabold">
+                    London
+                    <span className="absolute left-0 -bottom-0.5 h-[2px] w-full bg-gradient-to-r from-blue-400 to-orange-400 rounded-full" />
+                  </span>
+                  . Same-day service, upfront pricing, no surprises.
                 </p>
 
-                <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
                   <button
                     type="button"
                     onClick={handleQuoteClick}
-                    className="hero-btn font-heading font-bold text-sm text-center px-7 py-3.5 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-md hover:brightness-110 transition-all duration-300"
+                    className="hero-btn lg:hidden font-heading font-bold text-sm text-center px-6 py-3 sm:py-3.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
                   >
                     Get Free Quote
                   </button>
-                  
-                    <a href="tel:+10000000000"
-                    className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-7 py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+
+                  <a
+                    href="tel:+10000000000"
+                    className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-6 py-3 sm:py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
                   >
                     <Phone size={17} className="text-white/70" />
                     (000) 000-0000
                   </a>
                 </div>
 
-                <div className="hero-trust mt-9 inline-flex items-center gap-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 px-4 py-2.5">
-                  <div className="flex items-center gap-0.5 text-orange-400">
-                    {Array.from({ length: 5 }).map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" strokeWidth={0} />
-                    ))}
-                  </div>
-                  <div className="h-4 w-px bg-white/20" />
-                  <p className="text-white/85 text-xs sm:text-sm">
-                    <span className="font-heading font-bold text-white">4.9</span> rated by{" "}
-                    <span className="font-heading font-bold text-white">500+</span> London
-                    homeowners
-                  </p>
+                <div
+                  className="hero-trust mt-8 sm:mt-10 flex items-end gap-5 sm:gap-8"
+                  style={{ perspective: 700 }}
+                >
+                  <ClimateUnit mode={mode} temp={temp} />
+                  <Remote
+                    mode={mode}
+                    temp={temp}
+                    onSelectMode={selectMode}
+                    onAdjustTemp={adjustTemp}
+                  />
                 </div>
               </div>
 
-              {/* Right: quote form — desktop only, mobile uses modal */}
               <div
                 id="hero-quote-form"
                 className="hero-form hidden lg:block lg:w-[380px] lg:shrink-0 rounded-2xl"
