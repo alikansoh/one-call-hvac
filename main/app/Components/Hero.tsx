@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, useCallback, type FormEvent } from "react";
 import {
   Phone,
   Snowflake,
@@ -9,7 +9,8 @@ import {
   User,
   Mail,
   Wrench,
-  Clock,
+  MapPin,
+  ArrowRight,
 } from "lucide-react";
 import gsap from "gsap";
 
@@ -24,7 +25,7 @@ function QuoteForm() {
     phone: "",
     email: "",
     service: "AC Repair",
-    time: "As soon as possible",
+    postcode: "",
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
@@ -37,7 +38,7 @@ function QuoteForm() {
 
   if (submitted) {
     return (
-      <div className="w-full rounded-2xl bg-white shadow-2xl p-8 text-center">
+      <div className="w-full rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-8 text-center">
         <p className="font-heading font-bold text-lg text-blue-900">Thanks — we got it!</p>
         <p className="mt-2 text-sm text-gray-600">
           A technician will call you back within 30 minutes.
@@ -46,8 +47,12 @@ function QuoteForm() {
     );
   }
 
+  const inputClass =
+    "w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors";
+  const labelClass = "mb-1.5 block text-xs font-semibold text-gray-600";
+
   return (
-    <div className="w-full rounded-2xl bg-white shadow-2xl p-6 sm:p-7">
+    <div className="w-full rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-6 sm:p-7">
       <div className="mb-5">
         <p className="font-heading font-bold text-blue-900 text-xl leading-tight">
           Get a Free Quote
@@ -55,88 +60,128 @@ function QuoteForm() {
         <p className="text-xs text-gray-500 mt-1">Response within 30 minutes, 24/7.</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
-        <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-          <input
-            type="text"
-            required
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            placeholder="Full name"
-            className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
-          />
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div>
+          <label htmlFor="qf-name" className={labelClass}>
+            Full name <span className="text-red-500">*</span>
+          </label>
+          <div className="relative">
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <input
+              id="qf-name"
+              type="text"
+              required
+              autoComplete="name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              placeholder="John Smith"
+              className={inputClass}
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label htmlFor="qf-phone" className={labelClass}>
+              Phone <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                id="qf-phone"
+                type="tel"
+                required
+                autoComplete="tel"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                placeholder="(000) 000-0000"
+                className={inputClass}
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="qf-email" className={labelClass}>
+              Email
+            </label>
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+              <input
+                id="qf-email"
+                type="email"
+                autoComplete="email"
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                placeholder="you@email.com"
+                className={inputClass}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="qf-service" className={labelClass}>
+            Service needed
+          </label>
           <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <Wrench className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+            <select
+              id="qf-service"
+              value={form.service}
+              onChange={(e) => setForm({ ...form, service: e.target.value })}
+              className={`${inputClass} appearance-none bg-white`}
+            >
+              <option>AC Repair</option>
+              <option>AC Installation</option>
+              <option>Heating Repair</option>
+              <option>Maintenance</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="qf-postcode" className={labelClass}>
+            Postcode
+          </label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input
-              type="tel"
-              required
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              placeholder="Phone"
-              className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
+              id="qf-postcode"
+              type="text"
+              autoComplete="postal-code"
+              value={form.postcode}
+              onChange={(e) => setForm({ ...form, postcode: e.target.value })}
+              placeholder="e.g. SW1A 1AA"
+              className={inputClass}
             />
           </div>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <input
-              type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              placeholder="Email"
-              className="w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
-            />
-          </div>
         </div>
 
-        <div className="relative">
-          <Wrench className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-          <select
-            value={form.service}
-            onChange={(e) => setForm({ ...form, service: e.target.value })}
-            className="w-full appearance-none rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
-          >
-            <option>AC Repair</option>
-            <option>AC Installation</option>
-            <option>Heating Repair</option>
-            <option>Maintenance</option>
-            <option>Other</option>
-          </select>
+        <div>
+          <label htmlFor="qf-message" className={labelClass}>
+            Message <span className="font-normal text-gray-400">(optional)</span>
+          </label>
+          <textarea
+            id="qf-message"
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+            placeholder="Tell us what's going on"
+            rows={2}
+            className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors"
+          />
         </div>
-
-        <div className="relative">
-          <Clock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-          <select
-            value={form.time}
-            onChange={(e) => setForm({ ...form, time: e.target.value })}
-            className="w-full appearance-none rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
-          >
-            <option>As soon as possible</option>
-            <option>Morning</option>
-            <option>Afternoon</option>
-            <option>Evening</option>
-          </select>
-        </div>
-
-        <textarea
-          value={form.message}
-          onChange={(e) => setForm({ ...form, message: e.target.value })}
-          placeholder="Tell us what's going on (optional)"
-          rows={2}
-          className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600"
-        />
 
         <button
           type="submit"
-          className="mt-1 font-heading font-bold text-sm px-5 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
+          className="group mt-1 flex items-center justify-center gap-2 font-heading font-bold text-sm px-5 py-3.5 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
         >
           Get Free Quote
+          <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
         </button>
 
-        <p className="text-[11px] text-gray-400 text-center">No spam. We respect your privacy.</p>
+        <p className="text-[11px] text-gray-400 text-center">
+          <span className="text-red-500">*</span> Required · No spam, we respect your privacy.
+        </p>
       </form>
     </div>
   );
@@ -169,6 +214,9 @@ function QuoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       window.removeEventListener("keydown", onKey);
       ctx.revert();
     };
+    // `onClose` is stabilized with useCallback by the parent, so this effect
+    // only re-runs when `open` actually changes — not on every unrelated
+    // Hero re-render (e.g. the mode/temp auto-cycle every 2.8s).
   }, [open, onClose]);
 
   if (!open) return null;
@@ -180,6 +228,9 @@ function QuoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         className="absolute inset-0 bg-[#03142b]/70 backdrop-blur-sm"
         onClick={onClose}
       />
+
+      {/* Close button lives outside the scroll area so it's always visible,
+          even if the form content below is taller than the viewport. */}
       <div ref={cardRef} className="relative w-full max-w-sm">
         <button
           onClick={onClose}
@@ -188,7 +239,10 @@ function QuoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         >
           <X size={18} />
         </button>
-        <QuoteForm />
+
+        <div className="max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl">
+          <QuoteForm />
+        </div>
       </div>
     </div>
   );
@@ -515,10 +569,15 @@ export default function Hero() {
     }
   };
 
+  // Stable reference so QuoteModal's entrance-animation effect (which
+  // depends on `onClose`) doesn't re-fire on every unrelated Hero
+  // re-render from the mode/temp auto-cycle.
+  const closeQuote = useCallback(() => setQuoteOpen(false), []);
+
   const Current = MODES[mode];
 
   return (
-    <>
+    <div className="w-full overflow-x-hidden">
       <section
         ref={rootRef}
         className="relative left-1/2 -translate-x-1/2 w-screen min-h-[100svh] overflow-hidden"
@@ -537,11 +596,11 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#03142b]/80 via-[#03142b]/45 to-[#03142b]/20" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#03142b]/35 via-transparent to-[#03142b]/45" />
 
-        <div className="relative z-10 flex min-h-[100svh] w-full items-center py-12 sm:py-16 lg:pt-28 lg:pb-12">
+        <div className="relative z-10 flex min-h-[100svh] w-full items-center py-12 sm:py-16 lg:pt-24 lg:pb-14">
           <div className="max-w-7xl mx-auto px-5 sm:px-8 w-full">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-8">
-              <div className="lg:flex-1">
-                <h1 className="font-heading font-extrabold text-white leading-[0.95] tracking-tight text-[clamp(2rem,8.5vw,4.5rem)] text-balance w-full max-w-[26ch] sm:max-w-[22ch] lg:max-w-[15ch]">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-12 xl:gap-16">
+              <div className="lg:flex-1 min-w-0">
+                <h1 className="font-heading font-extrabold text-white leading-[0.95] tracking-tight text-balance w-full max-w-[92vw] sm:max-w-xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl text-[clamp(2.25rem,7.5vw,2.75rem)] sm:text-[clamp(2.5rem,6vw,3.25rem)] lg:text-[clamp(2.75rem,4.2vw,4rem)] xl:text-[clamp(3rem,3.8vw,4.5rem)]">
                   <div className="hero-line overflow-hidden">
                     <span className="inline-block">Comfort that</span>
                   </div>
@@ -555,7 +614,7 @@ export default function Hero() {
                       >
                         {Current.word}
                         <Current.Icon
-                          className="w-7 h-7 sm:w-9 sm:h-9 -translate-y-0.5"
+                          className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 xl:w-9 xl:h-9 -translate-y-0.5"
                           strokeWidth={2.25}
                         />
                       </span>
@@ -595,7 +654,7 @@ export default function Hero() {
                 </div>
 
                 <div
-                  className="hero-trust mt-8 sm:mt-10 flex items-end gap-5 sm:gap-8"
+                  className="hero-trust mt-9 sm:mt-10 flex items-end gap-5 sm:gap-8"
                   style={{ perspective: 700 }}
                 >
                   <ClimateUnit mode={mode} temp={temp} />
@@ -625,7 +684,7 @@ export default function Hero() {
         </div>
       </section>
 
-      <QuoteModal open={quoteOpen} onClose={() => setQuoteOpen(false)} />
-    </>
+      <QuoteModal open={quoteOpen} onClose={closeQuote} />
+    </div>
   );
 }
