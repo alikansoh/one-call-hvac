@@ -48,7 +48,7 @@ function QuoteForm() {
   }
 
   const inputClass =
-    "w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors";
+    "w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-base sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors";
   const labelClass = "mb-1.5 block text-xs font-semibold text-gray-600";
 
   return (
@@ -167,7 +167,7 @@ function QuoteForm() {
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             placeholder="Tell us what's going on"
             rows={2}
-            className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors"
+            className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-base sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors"
           />
         </div>
 
