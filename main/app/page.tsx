@@ -4,6 +4,8 @@ import Services from "./Components/Services";
 import Process from "./Components/Process";
 import Brands from "./Components/Brands";
 import WhyChooseUs from "./Components/WhyChooseUs";
+import OurWork from "./Components/OurWork";
+import Faq from "./Components/Faq";
 
 export default function Home() {
   return (
@@ -14,6 +16,8 @@ export default function Home() {
     <Services />
     <Brands />
     <WhyChooseUs />
+    <OurWork />
+    <Faq />
 
     </div>
   );
