@@ -471,7 +471,7 @@ export default function WhyChooseUs() {
             </svg>
             <div className="absolute inset-3 rounded-full bg-gradient-to-br from-blue-500/25 to-orange-500/25 blur-xl scale-110" />
             <Image
-              src="/man.png"
+              src="/man1.png"
               alt="One Call HVAC technician"
               fill
               sizes="192px"

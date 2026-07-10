@@ -21,8 +21,10 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
+
     onScroll();
     window.addEventListener("scroll", onScroll);
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
@@ -30,17 +32,22 @@ export default function Navbar() {
   useEffect(() => {
     if (mobileOpen) {
       const scrollY = window.scrollY;
+
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.left = "0";
       document.body.style.right = "0";
     } else {
       const scrollY = document.body.style.top;
+
       document.body.style.position = "";
       document.body.style.top = "";
       document.body.style.left = "";
       document.body.style.right = "";
-      if (scrollY) window.scrollTo(0, parseInt(scrollY, 10) * -1);
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY, 10) * -1);
+      }
     }
   }, [mobileOpen]);
 
@@ -51,16 +58,19 @@ export default function Navbar() {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // Reveal the menu as a circle expanding out from the toggle button,
-    // so the motion visibly originates from the control that triggered it.
+    // Reveal the menu as a circle expanding out from the toggle button
     const originPoint = () => {
       const rect = toggleRef.current?.getBoundingClientRect();
+
       const cx = rect ? rect.left + rect.width / 2 : window.innerWidth - 32;
+
       const cy = rect ? rect.top + rect.height / 2 : 32;
+
       const maxRadius = Math.hypot(
         Math.max(cx, window.innerWidth - cx),
         Math.max(cy, window.innerHeight - cy)
       );
+
       return { cx, cy, maxRadius };
     };
 
@@ -74,7 +84,12 @@ export default function Navbar() {
             clipPath: `circle(${maxRadius}px at ${cx}px ${cy}px)`,
             opacity: 1,
           });
-          gsap.set([".mobile-link", ".mobile-footer"], { opacity: 1, y: 0 });
+
+          gsap.set([".mobile-link", ".mobile-footer"], {
+            opacity: 1,
+            y: 0,
+          });
+
           return;
         }
 
@@ -93,7 +108,11 @@ export default function Navbar() {
           })
           .fromTo(
             ".mobile-link",
-            { opacity: 0, y: 22, filter: "blur(4px)" },
+            {
+              opacity: 0,
+              y: 22,
+              filter: "blur(4px)",
+            },
             {
               opacity: 1,
               y: 0,
@@ -106,15 +125,27 @@ export default function Navbar() {
           )
           .fromTo(
             ".mobile-footer",
-            { opacity: 0, y: 16 },
-            { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" },
+            {
+              opacity: 0,
+              y: 16,
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.4,
+              ease: "power3.out",
+            },
             "-=0.2"
           );
       } else {
         const { cx, cy } = originPoint();
 
         if (reduceMotion) {
-          gsap.set(overlayRef.current, { display: "none", opacity: 0 });
+          gsap.set(overlayRef.current, {
+            display: "none",
+            opacity: 0,
+          });
+
           return;
         }
 
@@ -122,14 +153,20 @@ export default function Navbar() {
           clipPath: `circle(0px at ${cx}px ${cy}px)`,
           duration: 0.45,
           ease: "power3.in",
-          onComplete: () => gsap.set(overlayRef.current, { display: "none" }),
+          onComplete: () =>
+            gsap.set(overlayRef.current, {
+              display: "none",
+            }),
         });
       }
     });
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
+      if (e.key === "Escape") {
+        setMobileOpen(false);
+      }
     };
+
     window.addEventListener("keydown", onKey);
 
     return () => {
@@ -166,8 +203,8 @@ export default function Navbar() {
               height={120}
               className={`w-auto transition-all duration-300 ${
                 scrolled
-                  ? "h-12 sm:h-14 md:h-18 lg:h-20"
-                  : "h-16 sm:h-20 md:h-24 lg:h-28"
+                  ? "h-16 sm:h-20 md:h-24 lg:h-28"
+                  : "h-20 sm:h-24 md:h-28 lg:h-32"
               }`}
               priority
             />
@@ -197,8 +234,12 @@ export default function Navbar() {
                 scrolled ? "text-blue-900" : "text-white"
               }`}
             >
-              <Phone size={18} className={scrolled ? "text-blue-700" : "text-blue-300"} />
-              02034885727            </Link>
+              <Phone
+                size={18}
+                className={scrolled ? "text-blue-700" : "text-blue-300"}
+              />
+              02034885727
+            </Link>
 
             <Link
               href="#contact"
@@ -208,8 +249,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Single toggle: sits above the overlay (z-[70]) so it stays live
-              for both opening and closing — no second, redundant close button. */}
+          {/* Single toggle: sits above the overlay so it stays live for both opening and closing */}
           <button
             ref={toggleRef}
             onClick={() => setMobileOpen((v) => !v)}
@@ -223,11 +263,13 @@ export default function Navbar() {
                   mobileOpen ? "translate-y-[7px] rotate-45" : ""
                 }`}
               />
+
               <span
                 className={`h-[2px] w-full rounded-full transition-all duration-200 ease-out ${barColor} ${
                   mobileOpen ? "scale-x-0 opacity-0" : "scale-x-100 opacity-100"
                 }`}
               />
+
               <span
                 className={`h-[2px] w-full origin-center rounded-full transition-all duration-300 ease-out ${barColor} ${
                   mobileOpen ? "-translate-y-[7px] -rotate-45" : ""
@@ -238,9 +280,7 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* Full-screen mobile menu overlay — revealed via clip-path circle
-          from the toggle button, so the animation reads as coming from
-          the control the user just tapped. */}
+      {/* Full-screen mobile menu overlay */}
       <div
         ref={overlayRef}
         role="dialog"
@@ -251,7 +291,10 @@ export default function Navbar() {
         <div className="flex flex-col justify-center flex-1 px-6 pt-20">
           <ul className="flex flex-col gap-0.5">
             {navLinks.map((link) => (
-              <li key={link.label} className="mobile-link border-b border-white/10">
+              <li
+                key={link.label}
+                className="mobile-link border-b border-white/10"
+              >
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
@@ -273,6 +316,7 @@ export default function Navbar() {
             <Phone size={18} className="text-blue-300" />
             02034885727
           </Link>
+
           <Link
             href="#contact"
             onClick={() => setMobileOpen(false)}
