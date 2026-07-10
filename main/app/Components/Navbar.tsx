@@ -192,14 +192,13 @@ export default function Navbar() {
 
           <div className="hidden lg:flex items-center gap-4">
             <Link
-              href="tel:+10000000000"
+              href="tel:02034885727"
               className={`flex items-center gap-2 font-semibold text-sm transition-colors duration-300 ${
                 scrolled ? "text-blue-900" : "text-white"
               }`}
             >
               <Phone size={18} className={scrolled ? "text-blue-700" : "text-blue-300"} />
-              (000) 000-0000
-            </Link>
+              02034885727            </Link>
 
             <Link
               href="#contact"
@@ -267,12 +266,12 @@ export default function Navbar() {
 
         <div className="mobile-footer px-6 pb-8 flex flex-col gap-3">
           <Link
-            href="tel:+10000000000"
+            href="tel:02034885727"
             onClick={() => setMobileOpen(false)}
             className="flex items-center gap-2 text-white font-semibold"
           >
             <Phone size={18} className="text-blue-300" />
-            (000) 000-0000
+            02034885727
           </Link>
           <Link
             href="#contact"

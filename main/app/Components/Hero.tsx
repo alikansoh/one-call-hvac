@@ -94,7 +94,7 @@ function QuoteForm() {
                 autoComplete="tel"
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                placeholder="(000) 000-0000"
+                placeholder="02034885727"
                 className={inputClass}
               />
             </div>
@@ -645,11 +645,11 @@ export default function Hero() {
                   </button>
 
                   <a
-                    href="tel:+10000000000"
+                    href="tel:02034885727"
                     className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-6 py-3 sm:py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
                   >
                     <Phone size={17} className="text-white/70" />
-                    (000) 000-0000
+                    02034885727
                   </a>
                 </div>
 
