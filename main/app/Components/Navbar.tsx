@@ -7,10 +7,10 @@ import { Phone } from "lucide-react";
 import gsap from "gsap";
 
 const navLinks = [
-  { label: "Home", href: "#" },
+  { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -242,7 +242,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="#contact"
+              href="/contact"
               className="font-heading font-bold text-sm px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
             >
               Get Free Quote
