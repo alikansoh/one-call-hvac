@@ -6,11 +6,14 @@ import Brands from "./Components/Brands";
 import WhyChooseUs from "./Components/WhyChooseUs";
 import OurWork from "./Components/OurWork";
 import Faq from "./Components/Faq";
+// import AboutUs from "./Components/Aboutus";
 
 export default function Home() {
   return (
   <div>
     <Hero />
+    {/* <AboutUs /> */}
+
     <Process />
 
     <Services />
