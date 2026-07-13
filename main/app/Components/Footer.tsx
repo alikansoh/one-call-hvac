@@ -41,10 +41,10 @@ function InstagramIcon({ size = 16 }: { size?: number }) {
 }
 
 const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: ".contact" },
 ];
 
 const services = [

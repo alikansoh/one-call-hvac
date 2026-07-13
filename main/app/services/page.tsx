@@ -1104,7 +1104,7 @@ export default function ServicesPageClient() {
             <div className="relative order-2 mx-auto flex aspect-[4/3] w-full max-w-sm items-center justify-center overflow-hidden rounded-2xl bg-slate-200 lg:order-1 lg:max-w-xs">
               {/* Replace with a London-specific image, e.g. /london-coverage.jpg */}
               <Image
-                src="/london-map.jpg"
+                src="/london-map3.jpg"
                 alt="Map of London boroughs covered by our engineers"
                 fill
                 sizes="(min-width: 1024px) 20vw, 100vw"
