@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Archivo } from "next/font/google";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
+import WhatsAppButton from "./Components/WhatsAppButton";
 import "./globals.css";
 
 const inter = Inter({
@@ -34,7 +35,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
-
+        <WhatsAppButton />
       </body>
     </html>
   );

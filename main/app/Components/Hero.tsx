@@ -1,252 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback, type FormEvent } from "react";
-import {
-  Phone,
-  Snowflake,
-  Flame,
-  X,
-  User,
-  Mail,
-  Wrench,
-  MapPin,
-  ArrowRight,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Phone, Snowflake, Flame } from "lucide-react";
 import gsap from "gsap";
 
 const MODES = [
   { word: "COOL", Icon: Snowflake, color: "#60a5fa" },
   { word: "WARM", Icon: Flame, color: "#ff8a3d" },
 ];
-
-function QuoteForm() {
-  const [form, setForm] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    service: "AC Repair",
-    postcode: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // TODO: wire this up to a real endpoint (API route, Formspree, Resend, etc.)
-    setSubmitted(true);
-  };
-
-  if (submitted) {
-    return (
-      <div className="w-full rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-8 text-center">
-        <p className="font-heading font-bold text-lg text-blue-900">Thanks — we got it!</p>
-        <p className="mt-2 text-sm text-gray-600">
-          A technician will call you back within 30 minutes.
-        </p>
-      </div>
-    );
-  }
-
-  const inputClass =
-    "w-full rounded-lg border border-gray-200 pl-9 pr-3 py-2.5 text-base sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors";
-  const labelClass = "mb-1.5 block text-xs font-semibold text-gray-600";
-
-  return (
-    <div className="w-full rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-6 sm:p-7">
-      <div className="mb-5">
-        <p className="font-heading font-bold text-blue-900 text-xl leading-tight">
-          Get a Free Quote
-        </p>
-        <p className="text-xs text-gray-500 mt-1">Response within 30 minutes, 24/7.</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div>
-          <label htmlFor="qf-name" className={labelClass}>
-            Full name <span className="text-red-500">*</span>
-          </label>
-          <div className="relative">
-            <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <input
-              id="qf-name"
-              type="text"
-              required
-              autoComplete="name"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })}
-              placeholder="John Smith"
-              className={inputClass}
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label htmlFor="qf-phone" className={labelClass}>
-              Phone <span className="text-red-500">*</span>
-            </label>
-            <div className="relative">
-              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input
-                id="qf-phone"
-                type="tel"
-                required
-                autoComplete="tel"
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                placeholder="02034885727"
-                className={inputClass}
-              />
-            </div>
-          </div>
-          <div>
-            <label htmlFor="qf-email" className={labelClass}>
-              Email
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input
-                id="qf-email"
-                type="email"
-                autoComplete="email"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                placeholder="you@email.com"
-                className={inputClass}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="qf-service" className={labelClass}>
-            Service needed
-          </label>
-          <div className="relative">
-            <Wrench className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <select
-              id="qf-service"
-              value={form.service}
-              onChange={(e) => setForm({ ...form, service: e.target.value })}
-              className={`${inputClass} appearance-none bg-white`}
-            >
-              <option>AC Repair</option>
-              <option>AC Installation</option>
-              <option>Heating Repair</option>
-              <option>Maintenance</option>
-              <option>Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="qf-postcode" className={labelClass}>
-            Postcode
-          </label>
-          <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-            <input
-              id="qf-postcode"
-              type="text"
-              autoComplete="postal-code"
-              value={form.postcode}
-              onChange={(e) => setForm({ ...form, postcode: e.target.value })}
-              placeholder="e.g. SW1A 1AA"
-              className={inputClass}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label htmlFor="qf-message" className={labelClass}>
-            Message <span className="font-normal text-gray-400">(optional)</span>
-          </label>
-          <textarea
-            id="qf-message"
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
-            placeholder="Tell us what's going on"
-            rows={2}
-            className="w-full resize-none rounded-lg border border-gray-200 px-3 py-2.5 text-base sm:text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600/40 focus:border-blue-600 transition-colors"
-          />
-        </div>
-
-        <button
-          type="submit"
-          className="group mt-1 flex items-center justify-center gap-2 font-heading font-bold text-sm px-5 py-3.5 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
-        >
-          Get Free Quote
-          <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-        </button>
-
-        <p className="text-[11px] text-gray-400 text-center">
-          <span className="text-red-500">*</span> Required · No spam, we respect your privacy.
-        </p>
-      </form>
-    </div>
-  );
-}
-
-function QuoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const backdropRef = useRef<HTMLDivElement>(null);
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    document.body.style.overflow = "hidden";
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(backdropRef.current, { opacity: 0 }, { opacity: 1, duration: 0.25 });
-      gsap.fromTo(
-        cardRef.current,
-        { opacity: 0, y: 24, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }
-      );
-    });
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-      ctx.revert();
-    };
-    // `onClose` is stabilized with useCallback by the parent, so this effect
-    // only re-runs when `open` actually changes — not on every unrelated
-    // Hero re-render (e.g. the mode/temp auto-cycle every 2.8s).
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 lg:hidden">
-      <div
-        ref={backdropRef}
-        className="absolute inset-0 bg-[#03142b]/70 backdrop-blur-sm"
-        onClick={onClose}
-      />
-
-      {/* Close button lives outside the scroll area so it's always visible,
-          even if the form content below is taller than the viewport. */}
-      <div ref={cardRef} className="relative w-full max-w-sm">
-        <button
-          onClick={onClose}
-          aria-label="Close quote form"
-          className="absolute -top-3 -right-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white text-blue-900 shadow-lg"
-        >
-          <X size={18} />
-        </button>
-
-        <div className="max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-2xl">
-          <QuoteForm />
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function ClimateUnit({ mode, temp }: { mode: number; temp: number }) {
   const flow = mode === 0 ? "#5fc2fb" : "#ff7a2e";
@@ -474,7 +236,6 @@ export default function Hero() {
   const [mode, setMode] = useState(0);
   const [temp, setTemp] = useState(18);
   const [userControlled, setUserControlled] = useState(false);
-  const [quoteOpen, setQuoteOpen] = useState(false);
   const reducedMotion = useRef(false);
 
   useEffect(() => {
@@ -502,12 +263,6 @@ export default function Hero() {
           "-=0.3"
         )
         .fromTo(".hero-trust", { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.2")
-        .fromTo(
-          ".hero-form",
-          { opacity: 0, y: 24 },
-          { opacity: 1, y: 0, duration: 0.7 },
-          "-=0.6"
-        )
         .fromTo(".hero-scroll-cue", { opacity: 0 }, { opacity: 1, duration: 0.6 }, "-=0.3");
     }, rootRef);
 
@@ -548,32 +303,6 @@ export default function Hero() {
     setTemp((t) => Math.min(30, Math.max(16, t + delta)));
   };
 
-  const handleQuoteClick = () => {
-    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
-    if (isDesktop) {
-      const el = document.getElementById("hero-quote-form");
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-      gsap.fromTo(
-        el,
-        { boxShadow: "0 0 0 0 rgba(37,99,235,0)" },
-        {
-          boxShadow: "0 0 0 6px rgba(37,99,235,0.25)",
-          duration: 0.4,
-          yoyo: true,
-          repeat: 1,
-          ease: "power2.inOut",
-        }
-      );
-    } else {
-      setQuoteOpen(true);
-    }
-  };
-
-  // Stable reference so QuoteModal's entrance-animation effect (which
-  // depends on `onClose`) doesn't re-fire on every unrelated Hero
-  // re-render from the mode/temp auto-cycle.
-  const closeQuote = useCallback(() => setQuoteOpen(false), []);
-
   const Current = MODES[mode];
 
   return (
@@ -597,81 +326,71 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#03142b]/35 via-transparent to-[#03142b]/45" />
 
         <div className="relative z-10 flex min-h-[100svh] w-full items-center py-12 sm:py-16 lg:pt-24 lg:pb-14">
-          <div className="max-w-7xl mx-auto px-5 sm:px-8 w-full">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-12 xl:gap-16">
-              <div className="lg:flex-1 min-w-0">
-                <h1 className="font-heading font-extrabold text-white leading-[0.95] tracking-tight text-balance w-full max-w-[92vw] sm:max-w-xl md:max-w-2xl lg:max-w-2xl xl:max-w-3xl text-[clamp(2.25rem,7.5vw,2.75rem)] sm:text-[clamp(2.5rem,6vw,3.25rem)] lg:text-[clamp(2.75rem,4.2vw,4rem)] xl:text-[clamp(3rem,3.8vw,4.5rem)]">
-                  <div className="hero-line overflow-hidden">
-                    <span className="inline-block">Comfort that</span>
-                  </div>
-                  <div className="hero-line overflow-hidden flex items-baseline gap-3 flex-wrap">
-                    <span className="inline-block">stays</span>
-                    <span className="relative inline-flex h-[1em] items-baseline overflow-hidden">
-                      <span
-                        ref={wordBoxRef}
-                        style={{ color: Current.color }}
-                        className="inline-flex items-center gap-2"
-                      >
-                        {Current.word}
-                        <Current.Icon
-                          className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 xl:w-9 xl:h-9 -translate-y-0.5"
-                          strokeWidth={2.25}
-                        />
-                      </span>
+          <div className="w-full px-5 sm:px-8">
+            <div className="min-w-0 w-full">
+              <h1 className="font-heading font-extrabold text-white leading-[0.95] tracking-tight text-balance w-full text-[clamp(2.25rem,7.5vw,2.75rem)] sm:text-[clamp(2.5rem,6vw,3.25rem)] lg:text-[clamp(2.75rem,4.2vw,4rem)] xl:text-[clamp(3rem,3.8vw,4.5rem)]">
+                <div className="hero-line overflow-hidden">
+                  <span className="inline-block">Comfort that</span>
+                </div>
+                <div className="hero-line overflow-hidden flex items-baseline gap-3 flex-wrap">
+                  <span className="inline-block">stays</span>
+                  <span className="relative inline-flex h-[1em] items-baseline overflow-hidden">
+                    <span
+                      ref={wordBoxRef}
+                      style={{ color: Current.color }}
+                      className="inline-flex items-center gap-2"
+                    >
+                      {Current.word}
+                      <Current.Icon
+                        className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 xl:w-9 xl:h-9 -translate-y-0.5"
+                        strokeWidth={2.25}
+                      />
                     </span>
-                  </div>
-                  <div className="hero-line overflow-hidden">
-                    <span className="inline-block">all year round.</span>
-                  </div>
-                </h1>
-
-                <p className="hero-sub mt-5 sm:mt-6 text-base sm:text-lg md:text-xl font-semibold text-white/95 leading-snug max-w-md tracking-wide [text-wrap:balance] drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
-                  Trusted heating and cooling specialists serving homes and
-                  businesses across{" "}
-                  <span className="relative text-white font-extrabold">
-                    London
-                    <span className="absolute left-0 -bottom-0.5 h-[2px] w-full bg-gradient-to-r from-blue-400 to-orange-400 rounded-full" />
                   </span>
-                  . Same-day service, upfront pricing, no surprises.
-                </p>
-
-                <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
-                  <button
-                    type="button"
-                    onClick={handleQuoteClick}
-                    className="hero-btn lg:hidden font-heading font-bold text-sm text-center px-6 py-3 sm:py-3.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
-                  >
-                    Get Free Quote
-                  </button>
-
-                  <a
-                    href="tel:02034885727"
-                    className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-6 py-3 sm:py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                  >
-                    <Phone size={17} className="text-white/70" />
-                    02034885727
-                  </a>
                 </div>
+                <div className="hero-line overflow-hidden">
+                  <span className="inline-block">all year round.</span>
+                </div>
+              </h1>
 
-                <div
-                  className="hero-trust mt-9 sm:mt-10 flex items-end gap-5 sm:gap-8"
-                  style={{ perspective: 700 }}
+              <p className="hero-sub mt-5 sm:mt-6 text-base sm:text-lg md:text-xl font-semibold text-white/95 leading-snug w-full max-w-3xl tracking-wide [text-wrap:balance] drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+                Trusted heating and cooling specialists serving homes and
+                businesses across{" "}
+                <span className="relative text-white font-extrabold">
+                  London
+                  <span className="absolute left-0 -bottom-0.5 h-[2px] w-full bg-gradient-to-r from-blue-400 to-orange-400 rounded-full" />
+                </span>
+                . Same-day service, upfront pricing, no surprises.
+              </p>
+
+              <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
+                <Link
+                  href="/quote"
+                  className="hero-btn font-heading font-bold text-sm text-center px-6 py-3 sm:py-3.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
                 >
-                  <ClimateUnit mode={mode} temp={temp} />
-                  <Remote
-                    mode={mode}
-                    temp={temp}
-                    onSelectMode={selectMode}
-                    onAdjustTemp={adjustTemp}
-                  />
-                </div>
+                  Get Free Quote
+                </Link>
+
+                <a
+                  href="tel:02034885727"
+                  className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-6 py-3 sm:py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                >
+                  <Phone size={17} className="text-white/70" />
+                  02034885727
+                </a>
               </div>
 
               <div
-                id="hero-quote-form"
-                className="hero-form hidden lg:block lg:w-[380px] lg:shrink-0 rounded-2xl"
+                className="hero-trust mt-9 sm:mt-10 flex items-end gap-5 sm:gap-8"
+                style={{ perspective: 700 }}
               >
-                <QuoteForm />
+                <ClimateUnit mode={mode} temp={temp} />
+                <Remote
+                  mode={mode}
+                  temp={temp}
+                  onSelectMode={selectMode}
+                  onAdjustTemp={adjustTemp}
+                />
               </div>
             </div>
           </div>
@@ -683,8 +402,6 @@ export default function Hero() {
           </span>
         </div>
       </section>
-
-      <QuoteModal open={quoteOpen} onClose={closeQuote} />
     </div>
   );
 }

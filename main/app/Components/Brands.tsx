@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -235,24 +236,6 @@ export default function BrandsSection() {
     };
   }, []);
 
-  const handleQuoteClick = () => {
-    const el = document.getElementById("hero-quote-form");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-      gsap.fromTo(
-        el,
-        { boxShadow: "0 0 0 0 rgba(37,99,235,0)" },
-        {
-          boxShadow: "0 0 0 6px rgba(37,99,235,0.25)",
-          duration: 0.4,
-          yoyo: true,
-          repeat: 1,
-          ease: "power2.inOut",
-        }
-      );
-    }
-  };
-
   return (
     <div ref={sectionRef}>
       <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
@@ -368,9 +351,8 @@ export default function BrandsSection() {
           </p>
 
           <div className="brands-cta-fade mt-8 flex flex-col items-center justify-center gap-3.5 sm:flex-row sm:gap-4">
-            <button
-              type="button"
-              onClick={handleQuoteClick}
+            <Link
+              href="/quote"
               className="group flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 px-7 py-3.5 font-heading text-sm font-bold text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 transition-all duration-300 hover:brightness-110"
             >
               Get Free Quote
@@ -378,7 +360,7 @@ export default function BrandsSection() {
                 size={16}
                 className="transition-transform duration-300 group-hover:translate-x-0.5"
               />
-            </button>
+            </Link>
 
             <a
               href="tel:02034885727"

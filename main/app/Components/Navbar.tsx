@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import gsap from "gsap";
 
@@ -18,6 +19,10 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -211,20 +216,31 @@ export default function Navbar() {
           </Link>
 
           <ul className="hidden lg:flex items-center gap-8 font-heading font-semibold text-sm tracking-wide">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className={`relative transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-blue-700 hover:after:w-full after:transition-all after:duration-300 ${
-                    scrolled
-                      ? "text-blue-900 hover:text-blue-700"
-                      : "text-white hover:text-blue-300"
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+
+              return (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`relative transition-colors duration-300 after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:bg-blue-700 after:transition-all after:duration-300 ${
+                      active ? "after:w-full" : "after:w-0 hover:after:w-full"
+                    } ${
+                      scrolled
+                        ? active
+                          ? "text-blue-700"
+                          : "text-blue-900 hover:text-blue-700"
+                        : active
+                        ? "text-blue-300"
+                        : "text-white hover:text-blue-300"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="hidden lg:flex items-center gap-4">
@@ -242,7 +258,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              href="/contact"
+              href="/quote"
               className="font-heading font-bold text-sm px-5 py-2.5 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
             >
               Get Free Quote
@@ -290,20 +306,29 @@ export default function Navbar() {
       >
         <div className="flex flex-col justify-center flex-1 px-6 pt-20">
           <ul className="flex flex-col gap-0.5">
-            {navLinks.map((link) => (
-              <li
-                key={link.label}
-                className="mobile-link border-b border-white/10"
-              >
-                <Link
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block py-3.5 font-heading font-bold text-2xl sm:text-3xl text-white active:text-blue-300 transition-colors"
+            {navLinks.map((link) => {
+              const active = isActive(link.href);
+
+              return (
+                <li
+                  key={link.label}
+                  className="mobile-link border-b border-white/10"
                 >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={active ? "page" : undefined}
+                    className={`relative block py-3.5 pl-4 -ml-4 font-heading font-bold text-2xl sm:text-3xl transition-colors ${
+                      active
+                        ? "text-blue-300 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:h-6 before:w-[3px] before:rounded-full before:bg-blue-300"
+                        : "text-white active:text-blue-300"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
@@ -318,7 +343,7 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="#contact"
+            href="/quote"
             onClick={() => setMobileOpen(false)}
             className="text-center font-heading font-bold px-5 py-3 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10"
           >
