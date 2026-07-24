@@ -48,7 +48,7 @@ const CONTACT_CARDS = [
     title: "Email us",
     detail: "info@onecallhvac.co.uk",
     sub: "We reply within 2 working hours",
-    href: "mailto:onecallhvacuk@gmail.com",
+    href: "mailto:info@onecallhvac.co.uk  ",
   },
   {
     Icon: Clock,
