@@ -46,7 +46,7 @@ const CONTACT_CARDS = [
   {
     Icon: Mail,
     title: "Email us",
-    detail: "onecallhvacuk@gmail.com",
+    detail: "info@onecallhvac.co.uk",
     sub: "We reply within 2 working hours",
     href: "mailto:onecallhvacuk@gmail.com",
   },
