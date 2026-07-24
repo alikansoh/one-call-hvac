@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { User, Phone, Mail, Wrench, MapPin, ArrowRight } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { User, Phone, Mail, Wrench, MapPin, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+
+type Status = "idle" | "loading" | "success" | "error";
 
 export default function QuoteForm() {
   const [form, setForm] = useState({
@@ -12,15 +15,37 @@ export default function QuoteForm() {
     postcode: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // TODO: wire this up to a real endpoint (API route, Formspree, Resend, etc.)
-    setSubmitted(true);
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          user_name: form.name,
+          user_phone: form.phone,
+          user_email: form.email,
+          service_type: form.service,
+          postcode: form.postcode,
+          message: form.message,
+        },
+        { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
+      );
+      setStatus("success");
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+      setErrorMsg("Something went wrong sending your request. Please try again or call us directly.");
+    }
   };
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="w-full rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 p-8 text-center">
         <p className="font-heading font-bold text-lg text-blue-900">Thanks — we got it!</p>
@@ -155,12 +180,29 @@ export default function QuoteForm() {
           />
         </div>
 
+        {status === "error" && (
+          <div className="flex items-center gap-2 text-red-600 text-xs bg-red-50 ring-1 ring-red-200 rounded-lg px-3 py-2.5">
+            <AlertCircle size={14} className="shrink-0" />
+            {errorMsg}
+          </div>
+        )}
+
         <button
           type="submit"
-          className="group mt-1 flex items-center justify-center gap-2 font-heading font-bold text-sm px-5 py-3.5 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300"
+          disabled={status === "loading"}
+          className="group mt-1 flex items-center justify-center gap-2 font-heading font-bold text-sm px-5 py-3.5 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-md shadow-blue-900/25 ring-1 ring-white/10 hover:brightness-110 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Get Free Quote
-          <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+          {status === "loading" ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Sending...
+            </>
+          ) : (
+            <>
+              Get Free Quote
+              <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+            </>
+          )}
         </button>
 
         <p className="text-[11px] text-gray-400 text-center">
