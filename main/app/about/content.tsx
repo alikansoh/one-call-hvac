@@ -30,6 +30,7 @@ gsap.registerPlugin(ScrollTrigger);
 /* ------------------------------------------------------------------ */
 
 const COMMITMENTS = [
+  "20+ years of HVAC experience",
   "Direct-employed London engineers",
   "Fixed price before work starts",
   "F-Gas certified & insured",
@@ -37,6 +38,12 @@ const COMMITMENTS = [
 ];
 
 const WHY_US = [
+  {
+    title: "20 years of experience",
+    detail:
+      "Two decades installing, repairing and servicing HVAC systems across London means we've seen every building type, every fault and every fix — and we get it right the first time.",
+    Icon: Users,
+  },
   {
     title: "London-wide coverage",
     detail:
@@ -260,29 +267,30 @@ export default function AboutPageClient() {
 
           <p className="abt-mask overflow-hidden">
             <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-orange-400">
-              London Air Conditioning
+              20 Years of London Air Conditioning
             </span>
           </p>
 
           <h1 className="mt-4 max-w-3xl font-heading font-extrabold leading-[1.02] tracking-tight text-white text-[clamp(1.9rem,4.8vw,3.1rem)]">
             <span className="abt-mask block overflow-hidden">
-              <span className="inline-block">Air conditioning engineers</span>
+              <span className="inline-block">20 years of air conditioning</span>
             </span>
             <span className="abt-mask block overflow-hidden">
-              <span className="inline-block">covering every London borough.</span>
+              <span className="inline-block">expertise, across every London borough.</span>
             </span>
           </h1>
 
           <p className="abt-fade mt-5 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg">
-            One Call HVAC installs, repairs, services and pipes air conditioning
-            throughout London. We keep every engineer on our own books, agree
-            every price in writing, and back every job with F-Gas certification
-            and public liability cover — from the West End to the M25.
+            For over 20 years, One Call HVAC has installed, repaired, serviced
+            and piped air conditioning throughout London. We keep every
+            engineer on our own books, agree every price in writing, and back
+            every job with F-Gas certification and public liability cover —
+            from the West End to the M25.
           </p>
 
           <div className="abt-fade mt-7 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="tel:02034885727"
+            
+              <a href="tel:02034885727"
               className="flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-3.5 font-heading text-sm font-bold text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 transition-all duration-300 hover:brightness-110"
             >
               <Phone size={17} />
@@ -330,30 +338,37 @@ export default function AboutPageClient() {
             <div className="order-1 lg:order-2">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-blue-700">Who we are</p>
               <h2 className="mt-3 font-heading text-2xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-                A London air conditioning company built around doing the job properly
+                20 years of London HVAC experience, built around doing the job properly
               </h2>
               <div className="mt-4 space-y-4 text-base leading-relaxed text-slate-600 sm:text-lg">
                 <p>
-                  One Call HVAC covers installation, repair, servicing and pipework
-                  for homes, offices and commercial spaces across all 32 London
-                  boroughs. We run a tight team of direct-employed engineers so the
-                  person quoting your job is the same person carrying it out.
+                  One Call HVAC has spent 20 years covering installation, repair,
+                  servicing and pipework for homes, offices and commercial spaces
+                  across all 32 London boroughs. We run a tight team of
+                  direct-employed engineers so the person quoting your job is the
+                  same person carrying it out.
                 </p>
                 <p>
                   Every engineer is F-Gas certified, DBS checked and backed by full
                   public liability insurance. Every price is agreed in writing before
                   work starts. And every finished system is commissioned with the
                   paperwork filed, whether it is a single wall-mounted unit in a Zone
-                  1 flat or a multi-zone commercial fit-out.
+                  1 flat or a multi-zone commercial fit-out — expertise we&apos;ve
+                  refined over two decades on London roofs, plant rooms and lofts.
                 </p>
                 <p>
                   No middlemen, no surprise charges, no waiting days for a callback.
-                  Just a straightforward London AC service that turns up when it
-                  says it will and leaves the system working as it should.
+                  Just a straightforward London AC service, backed by 20 years of
+                  experience, that turns up when it says it will and leaves the
+                  system working as it should.
                 </p>
               </div>
 
-              <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="mt-8 grid grid-cols-3 gap-4">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="font-heading text-2xl font-extrabold text-blue-700">20</p>
+                  <p className="text-sm font-medium text-slate-600">Years experience</p>
+                </div>
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                   <p className="font-heading text-2xl font-extrabold text-blue-700">32</p>
                   <p className="text-sm font-medium text-slate-600">London boroughs</p>
@@ -377,14 +392,15 @@ export default function AboutPageClient() {
           <div className="abt-mission-text flex-1 text-center lg:text-left">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-400">Our mission</p>
             <h2 className="mt-4 font-heading text-3xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl">
-              Set the standard for air conditioning in London —{" "}
+              20 years of setting the standard for air conditioning in London —{" "}
               <span className="text-orange-400">one properly done job at a time.</span>
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg lg:mx-0">
               Every engineer on the books, every price agreed up front, every job
-              certified when it is finished. That is the standard we are building
-              the whole business on — from residential split-system installs in
-              Westminster to commercial maintenance contracts in Croydon.
+              certified when it is finished. That is the standard we have built
+              over two decades in business — from residential split-system
+              installs in Westminster to commercial maintenance contracts in
+              Croydon.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
               <Link
@@ -394,8 +410,8 @@ export default function AboutPageClient() {
                 Explore our services
                 <ArrowRight size={16} />
               </Link>
-              <a
-                href="tel:02034885727"
+              
+                <a href="tel:02034885727"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-white/30 px-6 py-3.5 font-heading text-sm font-bold text-white transition hover:bg-white/10"
               >
                 <Phone size={17} />
@@ -418,7 +434,7 @@ export default function AboutPageClient() {
               Why One Call HVAC
             </p>
             <h2 className="mx-auto mt-3 max-w-2xl font-heading text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl lg:text-4xl">
-              The reasons London homes and businesses call us first
+              20 years of reasons London homes and businesses call us first
             </h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm text-slate-600 sm:text-base">
               Straightforward service, qualified engineers and clear pricing — no matter where in London you are.
@@ -426,10 +442,12 @@ export default function AboutPageClient() {
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
-            {WHY_US.map((item) => (
+            {WHY_US.map((item, index) => (
               <div
                 key={item.title}
-                className="abt-why flex items-start gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md"
+                className={`abt-why flex items-start gap-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-md ${
+                  index === 0 ? "sm:col-span-2 sm:border-blue-200 sm:bg-blue-50/40" : ""
+                }`}
               >
                 <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-blue-700 text-white shadow-md shadow-blue-900/20">
                   <item.Icon size={26} />
@@ -458,12 +476,13 @@ export default function AboutPageClient() {
             Book your London AC survey today
           </h2>
           <p className="mt-3 max-w-xl text-sm text-white/70 sm:text-base">
-            Call now for a free, no-obligation survey anywhere in London, or leave
-            your details and a coordinator will call you back within 30 minutes.
+            Call now for a free, no-obligation survey backed by 20 years of
+            London HVAC experience, or leave your details and a coordinator
+            will call you back within 30 minutes.
           </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <a
-              href="tel:02034885727"
+            
+              <a href="tel:02034885727"
               className="inline-flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-orange-500 to-orange-600 px-7 py-3.5 font-heading text-sm font-bold text-white shadow-md shadow-orange-900/30 ring-1 ring-white/10 transition-all duration-300 hover:brightness-110"
             >
               <Phone size={17} />
