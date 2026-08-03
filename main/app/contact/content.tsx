@@ -18,8 +18,17 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { trackConversion } from "@/lib/gtag";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ------------------------------------------------------------------ */
+/* Conversion labels — replace with the labels from Google Ads         */
+/* Goals > Conversions > [action] > Tag setup                          */
+/* ------------------------------------------------------------------ */
+
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
+const FORM_CONVERSION_LABEL = "REPLACE_WITH_FORM_LABEL";
 
 /* ------------------------------------------------------------------ */
 /* Content                                                             */
@@ -181,6 +190,10 @@ export default function ContactPageClient() {
         },
         { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
       );
+
+      // Fire the conversion only after EmailJS confirms the send succeeded
+      trackConversion(FORM_CONVERSION_LABEL);
+
       setSubmitted(true);
     } catch (err) {
       console.error(err);
@@ -188,6 +201,10 @@ export default function ContactPageClient() {
     } finally {
       setBusy(false);
     }
+  };
+
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
   };
 
   return (
@@ -227,6 +244,7 @@ export default function ContactPageClient() {
           <div className="cnt-fade mt-8 flex flex-col gap-4 sm:flex-row">
             <a
               href="tel:02034885727"
+              onClick={handlePhoneClick}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-gradient-to-r from-blue-600 to-blue-800 px-7 py-3.5 font-heading text-sm font-bold text-white shadow-md shadow-blue-900/30 ring-1 ring-white/10 transition-all duration-300 hover:brightness-110"
             >
               <Phone size={17} />
@@ -251,6 +269,7 @@ export default function ContactPageClient() {
               <Link
                 key={card.title}
                 href={card.href}
+                onClick={card.href.startsWith("tel:") ? handlePhoneClick : undefined}
                 className="cnt-card group rounded-2xl border border-slate-200 bg-white p-5 shadow-md shadow-slate-200/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-700 text-white shadow-md shadow-blue-900/20 transition-transform duration-300 group-hover:scale-105">
@@ -517,6 +536,7 @@ export default function ContactPageClient() {
                 </p>
                 <a
                   href="tel:02034885727"
+                  onClick={handlePhoneClick}
                   className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-3.5 font-heading text-sm font-bold text-white shadow-md shadow-orange-900/30 transition-all duration-300 hover:brightness-110"
                 >
                   <Phone size={17} />

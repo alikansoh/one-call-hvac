@@ -6,6 +6,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone } from "lucide-react";
 import gsap from "gsap";
+import { trackConversion } from "@/lib/gtag";
+
+// Replace with the label from your "Phone call" conversion action
+// in Google Ads (Goals > Conversions > [action] > Tag setup).
+// Reuse the same label as Hero/quote/contact pages so all phone
+// clicks count toward one conversion action.
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -23,6 +30,10 @@ export default function Navbar() {
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -246,6 +257,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-4">
             <Link
               href="tel:02034885727"
+              onClick={handlePhoneClick}
               className={`flex items-center gap-2 font-semibold text-sm transition-colors duration-300 ${
                 scrolled ? "text-blue-900" : "text-white"
               }`}
@@ -335,7 +347,10 @@ export default function Navbar() {
         <div className="mobile-footer px-6 pb-8 flex flex-col gap-3">
           <Link
             href="tel:02034885727"
-            onClick={() => setMobileOpen(false)}
+            onClick={() => {
+              handlePhoneClick();
+              setMobileOpen(false);
+            }}
             className="flex items-center gap-2 text-white font-semibold"
           >
             <Phone size={18} className="text-blue-300" />

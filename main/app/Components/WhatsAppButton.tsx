@@ -1,20 +1,30 @@
 "use client";
 
 import Link from "next/link";
+import { trackConversion } from "@/lib/gtag";
 
 const PHONE_NUMBER = "447341314188"; // international format, no + or leading 0
 const DEFAULT_MESSAGE = "Hi, I'd like to get a quote for HVAC services.";
+
+// Replace with the label from your "WhatsApp click" conversion action
+// in Google Ads (Goals > Conversions > [action] > Tag setup).
+const WHATSAPP_CONVERSION_LABEL = "REPLACE_WITH_WHATSAPP_LABEL";
 
 export default function WhatsAppButton() {
   const href = `https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(
     DEFAULT_MESSAGE
   )}`;
 
+  const handleClick = () => {
+    trackConversion(WHATSAPP_CONVERSION_LABEL);
+  };
+
   return (
     <Link
       href={href}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={handleClick}
       aria-label="Chat with us on WhatsApp"
       className="fixed bottom-5 right-5 z-[55] flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-black/25 ring-1 ring-black/5 transition-transform duration-200 hover:scale-110 active:scale-95 sm:bottom-6 sm:right-6"
     >

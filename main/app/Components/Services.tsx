@@ -7,8 +7,14 @@ import { ArrowRight, PhoneCall } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import * as THREE from "three";
+import { trackConversion } from "@/lib/gtag";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Replace with the label from your "Phone call" conversion action
+// in Google Ads. Reuse the same label as Navbar/Hero/quote/contact
+// so all phone clicks count toward one conversion action.
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
 
 type Category = "installation" | "repair" | "wholesale" | "pipework";
 
@@ -698,6 +704,10 @@ export default function Services() {
     };
   }, []);
 
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
+  };
+
   return (
     <section ref={rootRef} className="bg-slate-50 py-20 sm:py-24 lg:py-28">
       <script
@@ -796,6 +806,7 @@ export default function Services() {
 
             <a
               href="tel:02034885727"
+              onClick={handlePhoneClick}
               className="inline-flex items-center justify-center gap-2 rounded-md border border-slate-300 bg-white px-5 py-3 font-heading text-sm font-bold text-slate-800 transition hover:bg-slate-50"
             >
               <PhoneCall size={16} />

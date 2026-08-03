@@ -18,8 +18,13 @@ import {
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
+import { trackConversion } from "@/lib/gtag";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Replace with the label from your "Phone call" conversion action
+// in Google Ads. Reuse the same label as Navbar/Hero/Services/quote/contact.
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
 
 const BRANDS = [
   { name: "Mitsubishi", logo: "/mitsubishi.png" },
@@ -236,6 +241,10 @@ export default function BrandsSection() {
     };
   }, []);
 
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
+  };
+
   return (
     <div ref={sectionRef}>
       <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
@@ -364,6 +373,7 @@ export default function BrandsSection() {
 
             <a
               href="tel:02034885727"
+              onClick={handlePhoneClick}
               className="flex items-center justify-center gap-2 rounded-md border border-white/25 px-7 py-3.5 font-heading text-sm font-bold text-white transition-all duration-300 hover:border-white/40 hover:bg-white/10"
             >
               <Phone size={17} className="text-white/70" />

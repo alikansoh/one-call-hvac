@@ -3,8 +3,15 @@
 import { useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import { User, Phone, Mail, Wrench, MapPin, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { trackConversion } from "@/lib/gtag";
 
 type Status = "idle" | "loading" | "success" | "error";
+
+// Replace with the label from your "Form submission" conversion action
+// in Google Ads (Goals > Conversions > [action] > Tag setup).
+// If you already used a real label for the contact form, reuse the same
+// one here so both forms count toward the same conversion action.
+const FORM_CONVERSION_LABEL = "REPLACE_WITH_FORM_LABEL";
 
 export default function QuoteForm() {
   const [form, setForm] = useState({
@@ -37,6 +44,10 @@ export default function QuoteForm() {
         },
         { publicKey: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY! }
       );
+
+      // Fire the conversion only after EmailJS confirms the send succeeded
+      trackConversion(FORM_CONVERSION_LABEL);
+
       setStatus("success");
     } catch (err) {
       console.error(err);

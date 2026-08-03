@@ -3,6 +3,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin } from "lucide-react";
+import { trackConversion } from "@/lib/gtag";
+
+// Replace with the label from your "Phone call" conversion action
+// in Google Ads. Reuse the same label as Navbar/Hero/Services/BrandsSection.
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (
@@ -44,7 +49,7 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "About", href: "/about" },
-  { label: "Contact", href: ".contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const services = [
@@ -56,6 +61,10 @@ const services = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
+
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
+  };
 
   return (
     <footer className="relative overflow-hidden bg-slate-50 border-t border-slate-200">
@@ -142,6 +151,7 @@ export default function Footer() {
               <li>
                 <a
                   href="tel:02034885727"
+                  onClick={handlePhoneClick}
                   className="flex items-start gap-3 text-sm font-semibold text-slate-900 transition-colors duration-300 hover:text-blue-600"
                 >
                   <Phone size={16} className="mt-0.5 shrink-0 text-blue-600" />

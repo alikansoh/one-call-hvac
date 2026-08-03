@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Phone, ShieldCheck, Clock, BadgePoundSterling } from "lucide-react";
+import { ShieldCheck, Clock, BadgePoundSterling } from "lucide-react";
 import QuoteForm from "./QuoteForm";
+import CallLink from "./CallLink";
 
 export const metadata: Metadata = {
   title: "Get a Free Quote | Your Company",
@@ -59,13 +60,7 @@ export default function QuotePage() {
               ))}
             </ul>
 
-            
-              <a href="tel:02034885727"
-              className="mt-9 inline-flex items-center gap-2 font-heading font-bold text-sm px-6 py-3.5 rounded-md border border-white/15 bg-white/5 text-white shadow-sm hover:border-white/25 hover:bg-white/10 transition-all duration-300"
-            >
-              <Phone size={17} className="text-slate-400" />
-              Or call 02034885727
-            </a>
+            <CallLink />
           </div>
 
           {/* Right: the form (appears first on mobile, second on desktop) */}

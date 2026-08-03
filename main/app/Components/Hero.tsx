@@ -4,6 +4,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Phone, Snowflake, Flame } from "lucide-react";
 import gsap from "gsap";
+import { trackConversion } from "@/lib/gtag";
+
+// Replace with the label from your "Phone call" conversion action
+// in Google Ads (Goals > Conversions > [action] > Tag setup).
+// Reuse the same label you used on the quote/contact pages if you
+// want all phone clicks to count toward one conversion action.
+const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
 
 const MODES = [
   { word: "COOL", Icon: Snowflake, color: "#60a5fa" },
@@ -303,6 +310,10 @@ export default function Hero() {
     setTemp((t) => Math.min(30, Math.max(16, t + delta)));
   };
 
+  const handlePhoneClick = () => {
+    trackConversion(PHONE_CONVERSION_LABEL);
+  };
+
   const Current = MODES[mode];
 
   return (
@@ -373,6 +384,7 @@ export default function Hero() {
 
                 <a
                   href="tel:02034885727"
+                  onClick={handlePhoneClick}
                   className="hero-btn flex items-center justify-center gap-2 font-heading font-bold text-sm px-6 py-3 sm:py-3.5 rounded-md border border-white/25 text-white hover:bg-white/10 hover:border-white/40 transition-all duration-300"
                 >
                   <Phone size={17} className="text-white/70" />

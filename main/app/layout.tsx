@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Archivo } from "next/font/google";
+import Script from "next/script";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import WhatsAppButton from "./Components/WhatsAppButton";
@@ -132,6 +133,20 @@ export default function RootLayout({
       className={`${inter.variable} ${archivo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
+        {/* Google tag (gtag.js) — loads once, site-wide. Don't duplicate elsewhere. */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-18362162987"
+          strategy="afterInteractive"
+        />
+        <Script id="google-tag-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'AW-18362162987');
+          `}
+        </Script>
+
         <Navbar />
         {children}
         <Footer />
