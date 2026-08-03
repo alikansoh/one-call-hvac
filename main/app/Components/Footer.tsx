@@ -7,7 +7,7 @@ import { trackConversion } from "@/lib/gtag";
 
 // Replace with the label from your "Phone call" conversion action
 // in Google Ads. Reuse the same label as Navbar/Hero/Services/BrandsSection.
-const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
+const PHONE_CONVERSION_LABEL = "02034885727";
 
 function FacebookIcon({ size = 16 }: { size?: number }) {
   return (

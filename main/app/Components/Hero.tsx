@@ -10,7 +10,7 @@ import { trackConversion } from "@/lib/gtag";
 // in Google Ads (Goals > Conversions > [action] > Tag setup).
 // Reuse the same label you used on the quote/contact pages if you
 // want all phone clicks to count toward one conversion action.
-const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
+const PHONE_CONVERSION_LABEL = "02034885727";
 
 const MODES = [
   { word: "COOL", Icon: Snowflake, color: "#60a5fa" },

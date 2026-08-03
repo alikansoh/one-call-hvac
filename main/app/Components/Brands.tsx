@@ -24,7 +24,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Replace with the label from your "Phone call" conversion action
 // in Google Ads. Reuse the same label as Navbar/Hero/Services/quote/contact.
-const PHONE_CONVERSION_LABEL = "REPLACE_WITH_PHONE_LABEL";
+const PHONE_CONVERSION_LABEL = "02034885727";
 
 const BRANDS = [
   { name: "Mitsubishi", logo: "/mitsubishi.png" },
